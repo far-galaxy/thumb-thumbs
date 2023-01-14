@@ -1,5 +1,8 @@
 import os
 from PIL import Image, UnidentifiedImageError
+from pillow_heif import register_heif_opener
+
+register_heif_opener()
 
 dirs = [name for name in os.listdir(".") if os.path.isdir(name)]
 
@@ -16,10 +19,7 @@ for d in dirs:
             img = img.convert('RGB')
             image_list.append(img)
         except UnidentifiedImageError:
-            if file.lower().find(".heic") != -1:
-                print("\tIt is HEIC, I will do it later")
-            else:
-                print(f"\tWarning: unsupported format: /{d}/{file}, ignoring file")
+            print(f"\tWarning: unsupported format: /{d}/{file}, ignoring file")
             
     if len(image_list) != 0:
         print(f"Saving: {d}.pdf")
